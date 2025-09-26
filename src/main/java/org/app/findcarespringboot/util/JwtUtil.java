@@ -2,13 +2,20 @@ package org.app.findcarespringboot.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 @Component
 public class JwtUtil { // Helper class for JWT operations
-    private final String SECRET_KEY = "TPTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"; // Key for signing and verifying tokens
+
+    private final String SECRET_KEY;  // final field
+
+    public JwtUtil(@Value("${jwt.secret}") String secret) {  // <— constructor parameter annotated
+        this.SECRET_KEY = secret;
+    }
 
     public String generateToken(String username, long expirationMillis) {
         return Jwts.builder()
